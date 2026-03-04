@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cecilia Otero-Boyle — Creative Producer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #080808;
+    --paper: #f0ebe0;
+    --cream: #d8d0bc;
+    --gold: #c4a05a;
+    --silver: #888078;
+    --dim: #1e1a16;
+    --green: #4aaa2a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999; opacity: 0.45;
+  }
+
+  /* ── UTILS ── */
+  .label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.58rem; font-weight: 700;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .rule {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+  .rule .label { white-space: nowrap; }
+  .rule::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(to right, rgba(196,160,90,0.2), transparent);
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.58rem; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    text-decoration: none; color: var(--paper);
+    border: 1px solid rgba(196,160,90,0.35);
+    padding: 0.65rem 1.2rem;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .btn::before {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(196,160,90,0.07);
+    transform: translateX(-100%); transition: transform 0.3s;
+  }
+  .btn:hover::before { transform: translateX(0); }
+  .btn:hover { border-color: var(--gold); color: var(--gold); }
+  .arr { transition: transform 0.3s; }
+  .btn:hover .arr { transform: translateX(3px); }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.8rem; }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 7vw 9vh; overflow: hidden;
+  }
+  .hbg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 65% 25%, rgba(122,48,32,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse 45% 35% at 15% 75%, rgba(196,160,90,0.05) 0%, transparent 50%),
+      linear-gradient(165deg, #0f0c09 0%, #080808 55%, #0d0a07 100%);
+  }
+  header::after {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 5px;
+    background: repeating-linear-gradient(90deg, var(--gold) 0, var(--gold) 36px, transparent 36px, transparent 44px);
+    opacity: 0.18;
+  }
+  .hc { position: relative; z-index: 1; }
+
+  .eyebrow {
+    font-family: 'Syne', sans-serif; font-size: 0.62rem;
+    font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--gold); opacity: 0;
+    animation: fup 1s ease forwards 0.3s; margin-bottom: 1.8rem;
+  }
+  h1 {
+    font-weight: 300; font-size: clamp(3.8rem, 9vw, 9rem);
+    line-height: 0.92; letter-spacing: -0.02em;
+    opacity: 0; animation: fup 1.2s ease forwards 0.5s;
+  }
+  h1 em { font-style: italic; color: var(--gold); }
+
+  .tagline {
+    margin-top: 2.5rem; max-width: 520px;
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    font-weight: 300; line-height: 1.75; color: var(--cream);
+    opacity: 0; animation: fup 1.2s ease forwards 0.8s;
+  }
+  .hmeta {
+    margin-top: 3rem; display: flex; gap: 3.5rem; flex-wrap: wrap;
+    opacity: 0; animation: fup 1.2s ease forwards 1.1s;
+  }
+  .mi { display: flex; flex-direction: column; gap: 0.3rem; }
+  .ml { font-family: 'Syne', sans-serif; font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--silver); }
+  .mv { font-size: 0.92rem; color: var(--cream); }
+
+  .scroll-hint {
+    position: absolute; bottom: 3rem; right: 7vw;
+    font-family: 'Syne', sans-serif; font-size: 0.55rem;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--silver);
+    writing-mode: vertical-rl; opacity: 0;
+    animation: fi 2.5s ease forwards 2s;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .scroll-hint::after {
+    content: ''; display: block; width: 1px; height: 55px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: lg 2s ease forwards 2.2s;
+    transform-origin: top; transform: scaleY(0);
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 9vh 7vw; position: relative; }
+
+  .sh { font-size: clamp(2.2rem, 5vw, 4.2rem); font-weight: 300; line-height: 1; margin-bottom: 0.6rem; }
+  .ss { font-size: 1rem; font-style: italic; color: var(--silver); margin-bottom: 4rem; }
+
+  /* ── FILM SECTION ── */
+  .film-sec {
+    background: linear-gradient(180deg, #080808 0%, #0b0906 100%);
+    border-top: 1px solid rgba(196,160,90,0.07);
+  }
+
+  .film-card {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; margin-bottom: 1px;
+    background: rgba(196,160,90,0.05);
+  }
+
+  .film-video {
+    position: relative; background: #000;
+    aspect-ratio: 16/9; overflow: hidden;
+  }
+  .film-video iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; border: none;
+  }
+  .vcov {
+    position: absolute; inset: 0;
+    background: var(--dim);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 1rem; cursor: pointer; z-index: 2;
+    transition: background 0.3s;
+  }
+  .vcov:hover { background: #201c16; }
+  .play {
+    width: 54px; height: 54px;
+    border: 1px solid rgba(196,160,90,0.45);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+  }
+  .vcov:hover .play { border-color: var(--gold); transform: scale(1.06); }
+  .play svg { fill: var(--gold); width: 15px; margin-left: 3px; }
+  .ctitle {
+    font-family: 'Syne', sans-serif; font-size: 0.56rem;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(196,160,90,0.6);
+  }
+
+  .film-info {
+    padding: 2.5rem 3rem; background: var(--ink);
+    display: flex; flex-direction: column; justify-content: center;
+    border-left: 1px solid rgba(196,160,90,0.05);
+  }
+  .fy { font-family: 'Syne', sans-serif; font-size: 0.54rem; letter-spacing: 0.18em; color: var(--silver); text-transform: uppercase; margin-bottom: 0.6rem; }
+  .ft { font-size: clamp(1.4rem, 2.2vw, 2rem); font-weight: 600; line-height: 1.05; margin-bottom: 0.3rem; }
+  .fr { font-size: 0.9rem; font-style: italic; color: var(--gold); margin-bottom: 1rem; }
+  .fd { font-size: 0.95rem; font-weight: 300; line-height: 1.7; color: var(--cream); margin-bottom: 1.2rem; }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .badge {
+    font-family: 'Syne', sans-serif; font-size: 0.5rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid rgba(196,160,90,0.18);
+    color: rgba(196,160,90,0.6);
+  }
+  .badge.hi { background: rgba(196,160,90,0.07); border-color: rgba(196,160,90,0.45); color: var(--gold); }
+
+  /* ── FRANK SECTION ── */
+  .frank-sec {
+    background: #050505;
+    border-top: 1px solid rgba(74,170,42,0.12);
+    overflow: hidden;
+  }
+  .frank-sec::before {
+    content: ''; position: absolute;
+    top: -20%; left: 50%; transform: translateX(-50%);
+    width: 60%; height: 50%;
+    background: radial-gradient(ellipse, rgba(74,170,42,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .frank-intro {
+    display: grid; grid-template-columns: 1.15fr 1fr;
+    gap: 6vw; align-items: start; margin-bottom: 4rem;
+  }
+  .frank-text h2 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 300; line-height: 1; margin-bottom: 1.5rem;
+  }
+  .frank-text h2 em { color: var(--green); font-style: italic; }
+  .frank-text p { font-size: 1rem; font-weight: 300; line-height: 1.75; color: var(--cream); margin-bottom: 1.1rem; }
+
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    border: 1px solid rgba(74,170,42,0.12); margin: 2rem 0;
+  }
+  .stat-box {
+    padding: 1.4rem; border-right: 1px solid rgba(74,170,42,0.12);
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+  .stat-box:last-child { border-right: none; }
+  .sn { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; color: var(--green); line-height: 1; }
+  .sl { font-family: 'Syne', sans-serif; font-size: 0.5rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--silver); }
+
+  .frank-side { display: flex; flex-direction: column; gap: 1.2rem; }
+  .frank-panel {
+    border: 1px solid rgba(74,170,42,0.12); padding: 1.8rem;
+    background: rgba(74,170,42,0.02);
+  }
+  .frank-panel .label { color: var(--green); opacity: 0.8; margin-bottom: 0.8rem; display: block; }
+  .frank-panel p { font-size: 0.9rem; font-weight: 300; line-height: 1.75; color: var(--cream); }
+  .frank-panel p em { color: rgba(74,170,42,0.75); }
+
+  /* Gallery */
+  .frank-gallery {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 3px; margin-bottom: 1rem;
+  }
+  .fg {
+    overflow: hidden; position: relative;
+    background: #0a1206; cursor: pointer;
+  }
+  .fg-wide { grid-column: 1; grid-row: 1; aspect-ratio: 16/9; }
+  .fg-tall { grid-column: 2; grid-row: 1 / 3; }
+  .fg-wide2 { grid-column: 1; grid-row: 2; aspect-ratio: 16/9; }
+
+  .fg img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.6s ease;
+    filter: saturate(1.05);
+  }
+  .fg:hover img { transform: scale(1.04); }
+
+  /* Placeholder shown when image fails */
+  .fg-ph {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 0.6rem; padding: 1.5rem; text-align: center;
+  }
+  .fg-ph span:first-child {
+    font-family: 'Syne', sans-serif; font-size: 0.5rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(74,170,42,0.3);
+  }
+  .fg-ph span:last-child {
+    font-size: 0.82rem; font-style: italic;
+    color: rgba(74,170,42,0.2); line-height: 1.5;
+  }
+
+  .fg-ov {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 45%);
+    opacity: 0; transition: opacity 0.4s;
+    display: flex; align-items: flex-end; padding: 1rem 1.2rem;
+  }
+  .fg:hover .fg-ov { opacity: 1; }
+  .fg-cap { font-family: 'Syne', sans-serif; font-size: 0.52rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(74,170,42,0.85); }
+
+  /* BTS */
+  .bts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 2.5rem; }
+  .bts {
+    background: #0a0a0a; border: 1px solid rgba(74,170,42,0.1);
+    padding: 2rem; text-decoration: none; color: var(--paper);
+    display: flex; flex-direction: column; gap: 0.7rem;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .bts::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: var(--green);
+    transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
+  }
+  .bts:hover::before { transform: scaleX(1); }
+  .bts:hover { background: #0d0f0a; }
+  .bts .label { color: var(--green); opacity: 0.65; }
+  .bts-t { font-size: 1.05rem; }
+  .bts-d { font-size: 0.86rem; font-weight: 300; color: var(--silver); line-height: 1.6; }
+  .bts-a { font-family: 'Syne', sans-serif; font-size: 0.56rem; letter-spacing: 0.1em; color: var(--green); margin-top: auto; transition: transform 0.3s; }
+  .bts:hover .bts-a { transform: translateX(4px); }
+
+  /* ── COMMERCIAL ── */
+  .comm-sec {
+    background: linear-gradient(180deg, #060606 0%, #080808 100%);
+    border-top: 1px solid rgba(196,160,90,0.07);
+  }
+  .role {
+    display: grid; grid-template-columns: 150px 1fr auto;
+    gap: 2rem; align-items: baseline;
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: all 0.3s;
+  }
+  .role:hover .rc { color: var(--gold); }
+  .rp { font-family: 'Syne', sans-serif; font-size: 0.54rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--silver); }
+  .rc { font-size: 1.2rem; transition: color 0.3s; }
+  .rt { font-size: 0.84rem; font-style: italic; color: var(--silver); margin-top: 0.2rem; }
+  .rcl { font-family: 'Syne', sans-serif; font-size: 0.54rem; letter-spacing: 0.1em; color: var(--silver); text-align: right; line-height: 1.9; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 7vh 7vw; border-top: 1px solid rgba(196,160,90,0.08);
+    display: flex; justify-content: space-between;
+    align-items: flex-end; flex-wrap: wrap; gap: 2rem;
+  }
+  .fn { font-size: clamp(1.5rem, 3vw, 2.8rem); font-weight: 300; }
+  .fn em { font-style: italic; color: var(--gold); }
+  .flinks { display: flex; flex-direction: column; gap: 0.55rem; text-align: right; }
+  .flinks a { font-family: 'Syne', sans-serif; font-size: 0.6rem; letter-spacing: 0.12em; color: var(--silver); text-decoration: none; transition: color 0.3s; }
+  .flinks a:hover { color: var(--gold); }
+  .fbar { width: 100%; height: 1px; background: repeating-linear-gradient(90deg, var(--gold) 0, var(--gold) 18px, transparent 18px, transparent 26px); opacity: 0.1; margin-top: 2.5rem; }
+
+  /* ── REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.75s ease, transform 0.75s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fup { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fi  { from { opacity:0; } to { opacity:0.55; } }
+  @keyframes lg  { to { transform:scaleY(1); } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .film-card { grid-template-columns: 1fr; }
+    .frank-intro { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .stat-box:nth-child(2) { border-right: none; }
+    .frank-gallery { grid-template-columns: 1fr; }
+    .fg-wide, .fg-tall, .fg-wide2 { grid-column: 1; grid-row: auto; aspect-ratio: 16/9; }
+    .bts-grid { grid-template-columns: 1fr; }
+    .role { grid-template-columns: 1fr; gap: 0.3rem; }
+    .rcl { text-align: left; }
+    footer { flex-direction: column; align-items: flex-start; }
+    .flinks { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<header>
+  <div class="hbg"></div>
+  <div class="hc">
+    <p class="eyebrow">Creative Producer · New York / Los Angeles</p>
+    <h1>Cecilia<br><em>Otero-Boyle</em></h1>
+    <p class="tagline">Film. Experimental new media. Commercial production.<br>A decade of work that refuses to stay in one lane.</p>
+    <div class="hmeta">
+      <div class="mi">
+        <span class="ml">Education</span>
+        <span class="mv">MFA Columbia · BA Universidad de Chile</span>
+      </div>
+      <div class="mi">
+        <span class="ml">Recognition</span>
+        <span class="mv">BAFTA Newcomers · Film Independent · Sloan</span>
+      </div>
+      <div class="mi">
+        <span class="ml">Streaming</span>
+        <span class="mv">Netflix · MUBI</span>
+      </div>
+    </div>
+    <div class="btn-row" style="opacity:0; animation: fup 1.2s ease forwards 1.4s;">
+      <a class="btn" href="https://www.ceciliaotero.com/" target="_blank">Website <span class="arr">→</span></a>
+      <a class="btn" href="https://www.imdb.com/name/nm5717060/" target="_blank">IMDb <span class="arr">→</span></a>
+      <a class="btn" href="https://www.somewhereisland.xyz/" target="_blank">Somewhere Island <span class="arr">→</span></a>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</header>
+
+<!-- ══ 01 — FILM ══ -->
+<section class="film-sec">
+  <div class="rule"><span class="label">01 — Independent Film</span></div>
+  <h2 class="sh reveal">Narrative &amp;<br>Documentary</h2>
+  <p class="ss reveal">Award-winning features and shorts. Five continents.</p>
+
+  <!-- PIOLA -->
+  <div class="film-card reveal">
+    <div class="film-video">
+      <div class="vcov" onclick="loadVid(this,'https://www.youtube.com/embed/4kWwjiTO0zk?autoplay=1')">
+        <div class="play"><svg viewBox="0 0 10 12"><polygon points="0,0 10,6 0,12"/></svg></div>
+        <span class="ctitle">Piola — Official Trailer</span>
+      </div>
+    </div>
+    <div class="film-info">
+      <p class="fy">2020 · Feature Film</p>
+      <h3 class="ft">Piola</h3>
+      <p class="fr">Executive Producer &amp; Producer</p>
+      <p class="fd">Independently produced from script to worldwide distribution. Acquired by Netflix — debuted in the top 5 most-viewed films globally for three consecutive weeks. Festival circuit across Spain, Mexico, Chile, Italy, Finland, and Germany.</p>
+      <div class="badges">
+        <span class="badge hi">Netflix Worldwide</span>
+        <span class="badge hi">Top 5 Netflix — 3 Weeks</span>
+        <span class="badge hi">Best First Feature — FICG</span>
+        <span class="badge">Málaga IFF</span>
+        <span class="badge">Mar del Plata IFF</span>
+        <span class="badge">SANFIC</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SO THEY SAY -->
+  <div class="film-card reveal">
+    <div class="film-video">
+      <div class="vcov" onclick="loadVid(this,'https://www.youtube.com/embed/wXgslTfL7_w?autoplay=1')">
+        <div class="play"><svg viewBox="0 0 10 12"><polygon points="0,0 10,6 0,12"/></svg></div>
+        <span class="ctitle">So They Say — Trailer</span>
+      </div>
+    </div>
+    <div class="film-info">
+      <p class="fy">2023 · Short Film</p>
+      <h3 class="ft">So They Say</h3>
+      <p class="fr">Producer</p>
+      <p class="fd">Now streaming on MUBI. Premiered at Palm Springs ShortFest (Oscar-qualifying). Shortlisted for the BAFTA Yugo Student Awards. Screened at Telluride, Hamptons, and Tallinn Black Nights.</p>
+      <div class="badges">
+        <span class="badge hi">Streaming on MUBI</span>
+        <span class="badge hi">Telluride Film Festival</span>
+        <span class="badge hi">BAFTA Yugo Shortlist</span>
+        <span class="badge">Palm Springs ShortFest</span>
+        <span class="badge">Hamptons Film Festival</span>
+      </div>
+      <div class="btn-row">
+        <a class="btn" href="https://mubi.com" target="_blank">Watch on MUBI <span class="arr">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABURO -->
+  <div class="film-card reveal">
+    <div class="film-video">
+      <div class="vcov" onclick="loadVid(this,'https://player.vimeo.com/video/579851365?autoplay=1')">
+        <div class="play"><svg viewBox="0 0 10 12"><polygon points="0,0 10,6 0,12"/></svg></div>
+        <span class="ctitle">Aburo — Trailer</span>
+      </div>
+    </div>
+    <div class="film-info">
+      <p class="fy">2021 · Short Film</p>
+      <h3 class="ft">Aburo</h3>
+      <p class="fr">Writer, Director, Executive Producer</p>
+      <p class="fd">Shot in Havana, Cuba — where I was born. Awarded a production grant by the World Cinema Fund Amsterdam. Official selection at the 38th Miami International Film Festival and Festival Regard.</p>
+      <div class="badges">
+        <span class="badge hi">World Cinema Fund Amsterdam</span>
+        <span class="badge hi">38th Miami IFF</span>
+        <span class="badge">Festival Regard</span>
+        <span class="badge">Cine las Americas</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOY SOLA -->
+  <div class="film-card reveal">
+    <div class="film-video">
+      <div class="vcov" onclick="loadVid(this,'https://player.vimeo.com/video/351079428?autoplay=1')">
+        <div class="play"><svg viewBox="0 0 10 12"><polygon points="0,0 10,6 0,12"/></svg></div>
+        <span class="ctitle">Soy Sola — Trailer</span>
+      </div>
+    </div>
+    <div class="film-info">
+      <p class="fy">2019 · Short Film</p>
+      <h3 class="ft">Soy Sola</h3>
+      <p class="fr">Producer</p>
+      <p class="fd">DGA Student Film Award, Latino Category. Screened at Cannes Short Film Corner, Valdivia IFF, La Habana, Brussels Short Film Festival, and Chicago Latino Film Festival among others.</p>
+      <div class="badges">
+        <span class="badge hi">DGA Award — Latino Category</span>
+        <span class="badge">Cannes Short Film Corner</span>
+        <span class="badge">Brussels Short Film Festival</span>
+        <span class="badge">Valdivia IFF</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTIR -->
+  <div class="film-card reveal">
+    <div class="film-video">
+      <div class="vcov" onclick="loadVid(this,'https://player.vimeo.com/video/197128800?autoplay=1')">
+        <div class="play"><svg viewBox="0 0 10 12"><polygon points="0,0 10,6 0,12"/></svg></div>
+        <span class="ctitle">Partir — Short Documentary</span>
+      </div>
+    </div>
+    <div class="film-info">
+      <p class="fy">2011 · Documentary Short</p>
+      <h3 class="ft">Partir</h3>
+      <p class="fr">Writer &amp; Director</p>
+      <p class="fd">A personal documentary built from photographs, old Super 8 footage, and interviews — a portrait of my father's history. Official selection at Havana Film Festival and Chicago Latino Film Festival. Winner at Rengo and Providencia Film Festivals.</p>
+      <div class="badges">
+        <span class="badge hi">Havana Film Festival</span>
+        <span class="badge hi">Best Short — Rengo Film Festival</span>
+        <span class="badge">Jury Special Mention — Providencia FF</span>
+        <span class="badge">Chicago Latino Film Festival</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- A DECOROUS WOMAN -->
+  <div class="film-card reveal">
+    <div class="film-video">
+      <div class="vcov" onclick="loadVid(this,'https://player.vimeo.com/video/869391462?h=09a5ef4a23&autoplay=1')">
+        <div class="play"><svg viewBox="0 0 10 12"><polygon points="0,0 10,6 0,12"/></svg></div>
+        <span class="ctitle">A Decorous Woman — Teaser</span>
+      </div>
+    </div>
+    <div class="film-info">
+      <p class="fy">In Development · Feature</p>
+      <h3 class="ft">A Decorous Woman</h3>
+      <p class="fr">Executive Producer</p>
+      <p class="fd">Co-production with Parina Films (Chile) and Tomsa Films (France). 70% of budget secured through grants. Selected for Malaga Fund &amp; Co-production Market 2025 and Cinélatino Toulouse.</p>
+      <div class="badges">
+        <span class="badge hi">Malaga Fund Market 2025</span>
+        <span class="badge hi">Chile + France Co-production</span>
+        <span class="badge">Cinélatino Toulouse</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══ 02 — FRANK / SOMEWHERE ISLAND ══ -->
+<section class="frank-sec">
+  <div class="rule" style="margin-bottom:4rem;">
+    <span class="label" style="color:var(--green);">02 — Experimental New Media</span>
+    <div style="flex:1; height:1px; background:linear-gradient(to right, rgba(74,170,42,0.2), transparent);"></div>
+  </div>
+
+  <div class="frank-intro">
+    <div class="frank-text reveal">
+      <h2><em>Frank</em> &amp;<br>Somewhere Island</h2>
+      <p>An interactive sci-fi visual story — written entirely by me, with ChatGPT as an editing tool — released episodically on Discord. The audience was split into rival factions following parallel timelines; community votes shaped the plot after each episode.</p>
+      <p>The visual pipeline was genuinely hybrid: AI generation (Midjourney, video tools, After Effects) combined with handmade animation from collaborating animators, plus a 3D body scan that physically grounds the character in the real world. The result lived somewhere between cinema, gaming, and community art.</p>
+      <p>The story culminated in 222 Bitcoin ordinals on Magic Eden. The full collection sold out in three minutes. Beyond the collection, what excited me most was the community that formed: fan theories, meme channels, members posting their own Frank artwork — a living world around the story.</p>
+
+      <div class="stats-grid">
+        <div class="stat-box"><span class="sn">222</span><span class="sl">Ordinals Inscribed</span></div>
+        <div class="stat-box"><span class="sn">3′</span><span class="sl">Sold Out In</span></div>
+        <div class="stat-box"><span class="sn">$200K</span><span class="sl">Revenue</span></div>
+        <div class="stat-box"><span class="sn">3 mo.</span><span class="sl">Start to Finish</span></div>
+      </div>
+
+      <p style="font-size:0.88rem; color:var(--silver); font-style:italic; line-height:1.75; margin-top:0;">
+        <em style="color:rgba(74,170,42,0.75);">Season 2 in development</em> — upgrading to cinematic interactive format. Visual direction: <em>Under the Skin</em> (Glazer) × <em>2001</em> (Kubrick). Runway ML central to the pipeline.
+      </p>
+
+      <div class="btn-row">
+        <a class="btn" href="https://www.somewhereisland.xyz/" target="_blank" style="border-color:rgba(74,170,42,0.3);">Somewhere Island <span class="arr" style="color:var(--green);">→</span></a>
+        <a class="btn" href="https://magiceden.us/ordinals/marketplace/frank" target="_blank" style="border-color:rgba(74,170,42,0.3);">Frank on Magic Eden <span class="arr" style="color:var(--green);">→</span></a>
+      </div>
+    </div>
+
+    <div class="frank-side reveal">
+      <div class="frank-panel">
+        <span class="label" style="color:var(--green);">Season 2 — Visual Direction</span>
+        <p>Post-human body horror held in existential stillness. Toxic acid-green atmospheres — infrastructure, not nature. Silhouetted figures at thresholds, dark liquid seeping as transformation, geological scale dwarfing the individual. The test frames below are early pipeline outputs.</p>
+      </div>
+      <div class="frank-panel">
+        <span class="label" style="color:var(--green);">Aesthetic References</span>
+        <p>
+          <em>Under the Skin</em> — Jonathan Glazer<br>
+          <em>2001: A Space Odyssey</em> — Stanley Kubrick
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Frank S1 Teaser -->
+  <div class="reveal" style="margin-bottom:3px;">
+    <div style="position:relative; aspect-ratio:16/9; background:#000; overflow:hidden;">
+      <div class="vcov" onclick="loadVid(this,'https://player.vimeo.com/video/1170171347?h=bb48f43918&autoplay=1')" style="background:#0a1206;">
+        <div class="play" style="border-color:rgba(74,170,42,0.45);">
+          <svg viewBox="0 0 10 12" style="fill:var(--green);"><polygon points="0,0 10,6 0,12"/></svg>
+        </div>
+        <span class="ctitle" style="color:rgba(74,170,42,0.65);">Frank Season 1 — Official Teaser</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Frank Gallery — uses uploaded screenshots as data URIs would be too large; using external hosted paths with graceful fallback placeholders -->
+  <div class="frank-gallery reveal">
+    <!-- Wide: green figure / drip -->
+    <div class="fg fg-wide">
+      <div class="fg-ph">
+        <span>Frank S2 Test — Opening</span>
+        <span>"A woman stands there, at the edge of the universe"</span>
+      </div>
+      <div class="fg-ov"><span class="fg-cap">Frank S2 — Threshold</span></div>
+    </div>
+    <!-- Tall: face scan -->
+    <div class="fg fg-tall" style="background:linear-gradient(180deg,#e8e0d0,#c8bea8);">
+      <div class="fg-ph" style="background:transparent;">
+        <span style="color:rgba(0,0,0,0.25);">Character Design</span>
+        <span style="color:rgba(0,0,0,0.18);">3D Body Scan</span>
+      </div>
+      <div class="fg-ov"><span class="fg-cap">Frank — Character Scan</span></div>
+    </div>
+    <!-- Wide: volcanic landscape -->
+    <div class="fg fg-wide2">
+      <div class="fg-ph">
+        <span>Frank S2 Test — Landscape</span>
+        <span>"In front of her: nothing. No horizon, no ground."</span>
+      </div>
+      <div class="fg-ov"><span class="fg-cap">Frank S2 — Geological Scale</span></div>
+    </div>
+  </div>
+
+  <p style="font-family:'Syne',sans-serif; font-size:0.52rem; letter-spacing:0.14em; color:rgba(74,170,42,0.3); text-transform:uppercase; text-align:center; margin-bottom:3rem; margin-top:0.5rem;">
+    ↑ Upload your Frank visuals to replace the placeholder tiles above
+  </p>
+
+  <!-- BTS Threads -->
+  <div class="rule" style="margin-top:0.5rem;">
+    <span class="label" style="color:rgba(74,170,42,0.55);">Behind the Scenes — Process Documentation</span>
+    <div style="flex:1; height:1px; background:linear-gradient(to right, rgba(74,170,42,0.12), transparent);"></div>
+  </div>
+
+  <div class="bts-grid reveal">
+    <a class="bts" href="https://x.com/n0ahthinks/status/1778446461065195649" target="_blank">
+      <span class="label" style="color:var(--green); opacity:0.65;">Thread 01</span>
+      <span class="bts-t">Making Frank — Creative Process</span>
+      <span class="bts-d">Inside the production pipeline: how AI generation, handmade animation, and community storytelling were woven together to build Season 1.</span>
+      <span class="bts-a">View thread on X →</span>
+    </a>
+    <a class="bts" href="https://x.com/n0ahthinks/status/1730675538258231379" target="_blank">
+      <span class="label" style="color:var(--green); opacity:0.65;">Thread 02</span>
+      <span class="bts-t">Visual Development &amp; Ordinal Collection</span>
+      <span class="bts-d">The technical and creative decisions behind inscribing 222 ordinals on Bitcoin — from visual development through the Magic Eden launch.</span>
+      <span class="bts-a">View thread on X →</span>
+    </a>
+  </div>
+
+</section>
+
+<!-- ══ 03 — COMMERCIAL ══ -->
+<section class="comm-sec">
+  <div class="rule"><span class="label">03 — Commercial Production</span></div>
+  <h2 class="sh reveal">End-to-End<br>Campaigns</h2>
+  <p class="ss reveal">Post-production at broadcast scale. High-pressure turnarounds.</p>
+
+  <div class="reveal">
+    <div class="role">
+      <p class="rp">2023 — Present</p>
+      <div><p class="rc">Omnicom Production</p><p class="rt">Post Production Producer · Los Angeles</p></div>
+      <p class="rcl">Infiniti · Nissan · Subaru<br>Amazon · Dow Jones · BIC</p>
+    </div>
+    <div class="role">
+      <p class="rp">2022 — 2023</p>
+      <div><p class="rc">Weekend Post House</p><p class="rt">Post Production Producer · New York</p></div>
+      <p class="rcl">Kiehl's · Zara<br>Dior · Givenchy</p>
+    </div>
+    <div class="role">
+      <p class="rp">2022</p>
+      <div><p class="rc">Industrial Color</p><p class="rt">Creative Project Manager · New York</p></div>
+      <p class="rcl">Shiseido<br>Clé de Peau Beauté</p>
+    </div>
+    <div class="role">
+      <p class="rp">2021 — 2022</p>
+      <div><p class="rc">Quiet Pictures</p><p class="rt">Associate Producer · New York</p></div>
+      <p class="rcl">Long-form Documentary</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div>
+    <p class="fn">Cecilia<br><em>Otero-Boyle</em></p>
+    <p style="font-size:0.8rem; color:var(--silver); margin-top:0.6rem; font-style:italic;">New York · Los Angeles</p>
+  </div>
+  <div class="flinks">
+    <a href="/cdn-cgi/l/email-protection#4b282e282227222a243f2e3924390b2c262a222765282426"><span class="__cf_email__" data-cfemail="e1828482888d88808e9584938e93a1868c80888dcf828e8c">[email&#160;protected]</span></a>
+    <a href="https://www.ceciliaotero.com/" target="_blank">ceciliaotero.com</a>
+    <a href="https://www.imdb.com/name/nm5717060/" target="_blank">IMDb</a>
+    <a href="https://www.somewhereisland.xyz/" target="_blank">somewhereisland.xyz</a>
+    <a href="https://magiceden.us/ordinals/marketplace/frank" target="_blank">Frank on Magic Eden</a>
+  </div>
+  <div class="fbar"></div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  function loadVid(cover, src) {
+    const wrap = cover.parentElement;
+    const f = document.createElement('iframe');
+    f.src = src;
+    f.allow = 'autoplay; fullscreen; picture-in-picture';
+    f.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;';
+    wrap.appendChild(f);
+    cover.style.opacity = '0';
+    setTimeout(() => cover.remove(), 350);
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 65);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -10px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Fallback: reveal all hidden elements after 800ms in case observer doesn't fire
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.visible)').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), i * 40);
+    });
+  }, 800);
+</script>
+</body>
+</html>
